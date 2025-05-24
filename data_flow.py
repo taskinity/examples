@@ -6,11 +6,15 @@ import sys
 import os
 import pandas as pd
 
+# Get the absolute path to the examples directory
+EXAMPLES_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Create data directory if it doesn't exist
-os.makedirs("examples/data/output", exist_ok=True)
+data_output_dir = os.path.join(EXAMPLES_DIR, "data", "output")
+os.makedirs(data_output_dir, exist_ok=True)
 
 # Create sample data file if it doesn't exist
-sample_data_path = "examples/data/sample.csv"
+sample_data_path = os.path.join(EXAMPLES_DIR, "data", "sample.csv")
 if not os.path.exists(sample_data_path):
     os.makedirs(os.path.dirname(sample_data_path), exist_ok=True)
     with open(sample_data_path, 'w') as f:
@@ -100,8 +104,8 @@ flow DataProcessing:
 
 # Run the flow
 results = run_flow_from_dsl(flow_dsl, {
-    "file_path": "examples/data/sample.csv",
-    "output_path": "examples/data/output/processed.csv"
+    "file_path": sample_data_path,
+    "output_path": os.path.join(data_output_dir, "processed.csv")
 })
 
 print("\nFlow results:")
@@ -110,5 +114,5 @@ print(f"Saved file: {results['save_results']['path']}")
 
 # Display the processed file
 print("\nProcessed file contents:")
-processed_df = pd.read_csv("examples/data/output/processed.csv")
+processed_df = pd.read_csv(os.path.join(data_output_dir, "processed.csv"))
 print(processed_df)
