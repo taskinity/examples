@@ -37,8 +37,11 @@ help:
 install:
 	@echo "Installing dependencies..."
 	$(PYTHON) -m pip install --upgrade pip
-	$(PYTHON) -m venv venv
-	. venv/bin/activate
+	if [ ! -d "venv" ]; then \
+		echo "Creating virtual environment..."; \
+		$(PYTHON) -m venv venv; \
+	fi
+	. venv/bin/activate && \
 	pip install -r requirements.txt
 
 # Run examples
