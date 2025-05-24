@@ -2,7 +2,8 @@
 # This file provides commands to test all examples in the project
 
 # Variables
-PYTHON = python3
+# Use the virtual environment's Python if it exists, otherwise fall back to python3.11
+PYTHON = $(shell if [ -f venv/bin/python ]; then echo venv/bin/python; else echo python3.11; fi)
 DOCKER_COMPOSE = docker-compose
 
 # Taskinity module paths
@@ -53,6 +54,11 @@ help:
 	@echo "Utility Commands:"
 	@echo "  make clean                 - Clean up temporary files"
 	@echo "  make update-viz            - Update DSL visualizer in all Markdown files"
+
+## Install dependencies
+install:
+	@echo "Installing dependencies..."
+	pip install -r requirements.txt
 
 # Run all tests
 .PHONY: test-all
@@ -197,6 +203,7 @@ clean:
 update-viz:
 	@echo "Updating DSL visualizer in all Markdown files..."
 	../scripts/add-dsl-visualizer.sh
+
 
 # Show help by default
 .DEFAULT_GOAL := help

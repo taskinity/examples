@@ -2,7 +2,8 @@
 # This file contains all possible tests, examples, and run commands
 
 # Variables
-PYTHON = python3
+# Use the virtual environment's Python if it exists, otherwise fall back to python3
+PYTHON = $(shell if [ -f ../venv/bin/python ]; then echo ../venv/bin/python; else echo python3; fi)
 DOCKER_COMPOSE = docker-compose
 PYTEST = pytest
 
@@ -31,6 +32,14 @@ help:
 	@echo "  make clean              - Remove temporary files"
 	@echo "  make lint               - Run linter on code"
 	@echo "  make format             - Format code"
+
+## Install dependencies
+install:
+	@echo "Installing dependencies..."
+	$(PYTHON) -m pip install --upgrade pip
+	$(PYTHON) -m venv venv
+	. venv/bin/activate
+	pip install -r requirements.txt
 
 # Run examples
 .PHONY: run-basic

@@ -7,6 +7,7 @@ import os
 import time
 from typing import Any, Dict, List, Optional
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Import Taskinity core functionality
 from taskinity.core.taskinity_core import task
